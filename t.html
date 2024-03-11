@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<head>
+  <title>d3 Fishbone diagram</title>
+  <meta charset="utf-8">
+  <style>
+    @import url("./style.css");
+  </style>
+</head>
+
+<body>
+
+
+
+
+
+
+
+
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/d3.min.js" charset="utf-8"></script>
+  <script src="./d3.fishbone.js" charset="utf-8"></script>
+  <script>
+    // create the configurable selection modifier
+    var fishbone = d3.fishbone();
+
+
+
+
+    var jsonData = {
+      "name": "Quality",
+      "children": [
+        {
+          "name": "Machine",
+          "children": [
+          ]
+        },
+        {
+          "name": "Method",
+          "children": [
+          ]
+        },
+        {
+          "name": "Material",
+          "children": [
+          ]
+        },
+        {
+          "name": "Man Power",
+          "children": [
+          ]
+        },
+        {
+          "name": "Measurement",
+          "children": [
+          ]
+        },
+        {
+          "name": "Milieu",
+          "children": [
+          ]
+        }
+      ]
+    };
+
+
+    // Function to update the JSON data
+    function updateData(text, parent) {
+      // Add the new item to the parent's children
+      parent.children.push({ "name": text });
+
+      // Redraw the fishbone diagram with the updated data
+      svg.datum(jsonData).call(fishbone.defaultArrow).call(fishbone);
+      fishbone.force().start();
+    }
+
+
+    // the most reliable way to get the screen size
+    var size = (function () {
+      return { width: this.clientWidth, height: this.clientHeight };
+    }).bind(window.document.documentElement),
+
+      svg = d3.select("body")
+        .append("svg")
+        // firefox needs a real size
+        .attr(size())
+        // set the data so the reusable chart can find it
+        .datum(jsonData)
+        // set up the default arrowhead
+        .call(fishbone.defaultArrow)
+        // call the selection modifier
+        .call(fishbone);
+
+    // this is the actual `force`: just start it
+    fishbone.force().start();
+
+    // handle resizing the window
+    d3.select(window).on("resize", function () {
+      fishbone.force()
+        .size([size().width, size().height])
+        .start();
+      svg.attr(size())
+    });
+
+    // Add context menu directly to the ".node" elements
+    $('.node').on('contextmenu', function (event) {
+      event.preventDefault(); // Prevent default context menu
+      var nodeText = $(this).text(); // Get the text of the clicked node
+      var text = prompt("Enter Sub Bone Name for '" + nodeText + "':");
+
+      if (text !== null) {
+        if (text.trim() !== '') {
+          var nodeToUpdate = getNode(jsonData, nodeText);
+          if (nodeToUpdate) {
+            updateData(text, nodeToUpdate); // Update the JSON data
+          }
+        }
+      }
+    });
+
+
+    $(document).on("click", (e) => {
+      // console.log(e.target.parentElement.children[0].classList[0]);
+      let u = e.target.parentElement;
+      console.log(e.target.parentElement);
+      if(u.children[0].className.animVal==="label-2"){
+        u;
+      }
+
+   
+    })
+
+
+    // Function to find and return the node in the JSON data
+    function getNode(node, text) {
+      if (node.name === text) {
+        return node;
+      }
+      if (node.children) {
+        for (var i = 0; i < node.children.length; i++) {
+          var result = getNode(node.children[i], text);
+          if (result) {
+            return result;
+          }
+        }
+      }
+      return null;
+    }
+  </script>
+</body>
+
+</html>
