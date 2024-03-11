@@ -9,6 +9,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     overflow: hidden;
+    font-family: sans-serif;
 }
 
 /* get it? gill? */
@@ -66,7 +67,7 @@ body {
 }
 
 
-.link{
+.link {
     cursor: pointer;
 }
 
@@ -88,6 +89,33 @@ body {
 
 }
 
-#context-menu button{
+#context-menu button {
     font-size: 20px;
+}
+
+
+
+.popup-box {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    padding-top: 50px;
+    background: #0000003a;
+    display: none;
+    /* Initially hidden */
+
+    
+}
+.popup-box button{
+    border: 2px solid #0049B7;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-left: 10px;
+    font-size: 18px;
+    transition: all .5s ease;
+}
+.popup-box button:hover{
+    color: #fff;
+    background: #0049B7;
 }
