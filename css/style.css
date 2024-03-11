@@ -119,3 +119,19 @@ body {
     color: #fff;
     background: #0049B7;
 }
+
+.text-box{
+position: absolute;
+top: 0;
+right: 0;
+padding: 15px;
+}
+.text-box p{
+    font-size: 18px;
+padding: 0;
+margin: 0;
+}
+.text-box p span{
+    color: red;
+    font-weight: 700;
+}
