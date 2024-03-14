@@ -2,11 +2,9 @@
 
 This project implements a fishbone structure/diagram visualization using D3.js. The fishbone diagram, also known as a cause-and-effect diagram, is a tool used for visualizing the potential causes of a problem or effect.
 
-
 ## Overview
 
 The fishbone diagram consists of a central spine (representing the main problem or effect) and branches that radiate from it (representing potential causes or categories of causes). Each branch can further branch out into subcategories, creating a hierarchical structure.
-
 
 ## Features
 
@@ -16,20 +14,17 @@ The fishbone diagram consists of a central spine (representing the main problem 
 - **Removal of Bones:** Users can remove bones from the diagram by right-clicking on them and selecting the delete option.
 - **Dynamic Layout:** The diagram layout dynamically adjusts to accommodate new nodes and changes in the structure.
 
-
 ## Technologies Used
 
 - **D3.js:** Utilized for creating the interactive visualization of the fishbone diagram.
 - **jQuery:** Used for handling DOM events and interactions.
 - **Bootstrap:** Used for styling and layout of the popup container and buttons.
 
-
 ## Usage
 
 1. Clone the repository to your local machine.
 2. Open the `index.html` file in a web browser to view the fishbone diagram.
 3. Interact with the diagram by left-clicking to add or rename bones, and right-clicking to delete bones.
-
 
 ## Project Structure
 
