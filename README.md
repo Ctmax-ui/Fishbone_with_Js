@@ -27,7 +27,7 @@ The fishbone diagram consists of a central spine (representing the main problem 
 3. Interact with the diagram by left-clicking to add or rename bones, and right-clicking to delete bones.
 
 ## Project Structure
-
+```
 fishbone_project/
 │
 ├── index.html # HTML file containing the fishbone diagram visualization
@@ -37,5 +37,6 @@ fishbone_project/
 │ └── script.js # Main JavaScript file for handling interactions
 ├── style.css # Cascading Style Sheets (CSS) file for styling
 └── README.md # Project README file
+```
 
 #### Visit [Fishbone_with_Js](https://www.github.com/Ctmax-ui/Fishbone_with_Js) to access the GitHub repository.
