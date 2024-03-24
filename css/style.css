@@ -74,10 +74,8 @@ body {
 
 #context-menu {
     position: fixed;
-
     z-index: 10000;
     width: 150px;
-
     background: #f5f5f5;
     border-radius: 5px;
 
@@ -105,9 +103,10 @@ body {
     display: none;
     /* Initially hidden */
 
-    
+
 }
-.popup-box button{
+
+.popup-box button {
     border: 2px solid #0049B7;
     padding: 10px 20px;
     border-radius: 6px;
@@ -115,23 +114,73 @@ body {
     font-size: 18px;
     transition: all .5s ease;
 }
-.popup-box button:hover{
+
+.popup-box button:hover {
     color: #fff;
     background: #0049B7;
 }
 
-.text-box{
-position: absolute;
-top: 0;
-right: 0;
-padding: 15px;
+.text-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
 }
-.text-box p{
+
+.text-box p {
     font-size: 18px;
-padding: 0;
-margin: 0;
+    padding: 0;
+    margin: 0;
 }
-.text-box p span{
+
+.text-box p span {
     color: red;
     font-weight: 700;
 }
+
+
+.maintree-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0 10px 5px 0;
+    width: 230px !important;
+    height: 270px !important;
+    border: 1px solid #000;
+    background: #f2f2f2;
+    overflow: hidden;
+
+
+}
+
+#tree-box {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 5px;
+    padding-top: 40px;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+
+#checkbox-form {
+    width: 200px !important;
+    position: fixed;
+    cursor: pointer;
+    margin: auto;
+    padding-top: 5px;
+    background: #f2f2f2;
+}
+
+.tree-node {
+    cursor: pointer;
+    list-style: decimal;
+}
+
+.tree-node ul {
+    display: none;
+
+}
+
+.tree-node ul li {}
