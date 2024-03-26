@@ -28,3 +28,5 @@ To use this project, follow these steps:
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
+
+If you use this project, please provide credit to [<a href="https://github.com/Ctmax-ui/Fishbone_with_Js/">Debjeet Biswas</a>].
