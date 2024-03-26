@@ -1,5 +1,4 @@
 
-
 // create the configurable selection modifier
 var fishbone = d3.fishbone();
 
@@ -86,15 +85,39 @@ var size = (function () {
 // this is the actual `force`: just start it
 fishbone.force().start();
 
-//for checkboxes
+
+// for the checkbox logic.
 function unselectOthers(clickedId) {
-    var checkboxes = document.getElementsByName('checkbox');
-    checkboxes.forEach(function (checkbox) {
-        if (checkbox.id !== clickedId) {
-            checkbox.checked = false;
+    // Remove red background from all labels
+    $('[name="checkbox"]').siblings('label').css({
+        'background-color': '',
+        'color': '',
+    });
+
+    // Uncheck other checkboxes
+    $('[name="checkbox"]').not('#' + clickedId).prop('checked', false);
+
+    // Add red background to labels associated with checked checkboxes
+    $('[name="checkbox"]').each(function () {
+        if ($(this).prop('checked')) {
+            $(this).next('label').css({
+                'background':'#0ca929',
+                'color': '#fff',
+        });
         }
     });
 }
+unselectOthers("bone-add");
+unselectOthers("bone-delete");
+unselectOthers("bone-rename");
+
+
+
+$(document).on("click", ".toggle-tree", function() {
+    $(".maintree-container").toggle("slow");
+});
+
+
 
 
 $(document).ready(function () {

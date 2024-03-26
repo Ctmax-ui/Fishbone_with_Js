@@ -30,7 +30,7 @@ THE SOFTWARE.
     */
 
     // private variables
-    var _margin = 50,
+    var _margin = 100,
 
       // the data...
       _nodes,

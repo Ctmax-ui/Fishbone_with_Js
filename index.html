@@ -5,34 +5,35 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Fishbone diagram</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body oncontextmenu="return false">
 
-  <div class="text-box">
-    <p><span>Left Click</span> to Show the tree branches!</p>
-    <p><span>Right Click</span> to Add, Delete & Rename !!</p>
-  </div>
+  <div class="warning-overlayer">The screen size is not compatible with our project please upgrade to an bigger screen like laptop or desktop.</div>
 
-  <!-- Hidden popup box -->
-  <!-- <div id="popupContainer" class="popup-box">
-    <button id="nodeExit">Exit</button>
-    <button id="nodeAdd">Add</button>
-    <button id="nodeDelete">Delete</button>
-  </div> -->
+<button class="toggle-tree btn" >Toggle Customize Menu</button>
 
+<div class="guide-text">
+  <p><span>Left Click</span> to show dropdown trees.</p>
+  <p><span>Right Click</span> to Add, Delete, Rename before selecting the button</p>
+</div>
 
   <section class="maintree-container">
     <form action="#" id="checkbox-form">
+
       <input type="checkbox" name="checkbox" id="bone-add" onclick="unselectOthers('bone-add')">
-      <label for="bone-add">Add</label>
+      <label for="bone-add" ><i class="fa-solid fa-plus"></i></label>
+
       <input type="checkbox" name="checkbox" id="bone-delete" onclick="unselectOthers('bone-delete')">
-      <label for="bone-delete">delete</label>
+      <label for="bone-delete"><i class="fa-solid fa-trash"></i></label>
+
       <input type="checkbox" name="checkbox" id="bone-rename" onclick="unselectOthers('bone-rename')">
-      <label for="bone-rename">rename</label>
+      <label for="bone-rename"><i class="fa-solid fa-edit"></i></label>
+
     </form>
-    
+
     <div class="tree-box" id="tree-box">
 
     </div>
@@ -46,10 +47,10 @@
   <script src="./js/index.js"></script>
 
   <script>
-    
+
   </script>
 
-  
+
 </body>
 
 </html>
