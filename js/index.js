@@ -1,7 +1,5 @@
-
 // create the configurable selection modifier
 var fishbone = d3.fishbone();
-
 
 //The json data
 var jsonData = {
@@ -11,60 +9,45 @@ var jsonData = {
             "name": "Machine",
             "children": [
                 {
-                    "name": "needle",
-                    "children": [
-                        { "name": "Mill" },
-                        { "name": "Till" },
-                    ]
+                    "name": "Needle",
+                    "children": [{ "name": "Automation" }]
                 },
-                { "name": "will" },
-
+                { "name": "Gearbox" }
             ]
         },
         {
             "name": "Method",
-            "children": [
-            ]
+            "children": [{ "name": "Procedure" }]
         },
         {
             "name": "Material",
-            "children": [
-            ]
+            "children": [{ "name": "Component" }]
         },
         {
             "name": "Man Power",
-            "children": [
-            ]
+            "children": [{ "name": "Employee" }]
         },
         {
             "name": "Measurement",
             "children": [
                 {
-                    "name": "tape",
-                    "children": [
-                        { "name": "cm" },
-                        { "name": "mm" },
-                    ]
+                    "name": "Tool",
+                    "children": [{ "name": "Scale" }]
                 },
-                { "name": "Ducktape" },
-
+                { "name": "Gauge" }
             ]
         },
         {
             "name": "Milieu",
-            "children": [
-            ]
+            "children": [{ "name": "Environment" }]
         }
     ]
 };
 
-
-
-
 function updateDiagram() {
     svg.datum(jsonData).call(fishbone.defaultArrow).call(fishbone);
     fishbone.force().start();
-}
+};
 
 // the most reliable way to get the screen size
 var size = (function () {
@@ -85,7 +68,6 @@ var size = (function () {
 // this is the actual `force`: just start it
 fishbone.force().start();
 
-
 // for the checkbox logic.
 function unselectOthers(clickedId) {
     // Remove red background from all labels
@@ -101,29 +83,23 @@ function unselectOthers(clickedId) {
     $('[name="checkbox"]').each(function () {
         if ($(this).prop('checked')) {
             $(this).next('label').css({
-                'background':'#0ca929',
+                'background': '#0ca929',
                 'color': '#fff',
-        });
-        }
+            });
+        };
     });
-}
+};
 unselectOthers("bone-add");
 unselectOthers("bone-delete");
 unselectOthers("bone-rename");
 
-
-
-$(document).on("click", ".toggle-tree", function() {
+$(document).on("click", ".toggle-tree", function () {
     $(".maintree-container").toggle("slow");
 });
 
-
-
-
 $(document).ready(function () {
-    let u = $("#tree-box");
-
-    console.log(u);
+    // let u = $("#tree-box");
+    // console.log(u);
 
     // Function to create the tree diagram
     function showTree(container, data) {
@@ -137,12 +113,11 @@ $(document).ready(function () {
                     $(this).children('ul').toggle();
                 });
                 showTree(li, node.children);
-            }
+            };
             ul.append(li);
         });
-
         container.append(ul);
-    }
+    };
 
 
 
@@ -151,18 +126,18 @@ $(document).ready(function () {
     $("#tree-box").on("contextmenu", function (e) {
         let resultNode = getNode(jsonData, e.target.innerText);
         let parentNode = resultNode.parent;
-        console.log(resultNode.name, parentNode ? parentNode.name : null, e);
+        // console.log(resultNode.name, parentNode ? parentNode.name : null, e);
 
         if (!parentNode) {
             console.log("Error: Parent node not found in JSON data");
             return;
-        }
+        };
 
         // Find the immediate parent node to add the sub-bone
         while (parentNode.name !== "Quality" && parentNode.children.length === 0) {
             resultNode = parentNode;
             parentNode = parentNode.parent;
-        }
+        };
 
         // for adding bones
         if (whichIsSelected() === 0) {
@@ -177,18 +152,21 @@ $(document).ready(function () {
         // for delete bones
         if (whichIsSelected() === 1) {
             if (parentNode.name !== "Quality") {
-                deleteChild(parentNode, resultNode.name);
-                updateTree($("#tree-box"), jsonData.children);
+                let deleteConfirm = confirm("are you sure you want to delete this bone : '" + resultNode.name + "' !! Note the sub bones will also get delted")
+                if (deleteConfirm) {
+                    deleteChild(parentNode, resultNode.name);
+                    updateTree($("#tree-box"), jsonData.children);
+                } else {
+                    return;
+                };
             } else {
                 console.log("Cannot delete the 'Quality' node.");
-            }
-        }
+            };
+        };
 
         // for renaming the bones
         if (whichIsSelected() === 2) {
-
             let nodeText = resultNode.name;
-
             // Prompt the user to enter the new name for the node
             let newName = prompt("Enter the new name for the node:", nodeText);
 
@@ -203,12 +181,10 @@ $(document).ready(function () {
                     updateTree($("#tree-box"), jsonData.children);
                 } else {
                     //   console.log("Error: Node not found in JSON data");
-                }
-            }
-
-        }
+                };
+            };
+        };
     });
-
 
     // which task is selected
     function whichIsSelected() {
@@ -219,30 +195,28 @@ $(document).ready(function () {
         switch (true) {
             case boneAdd:
                 return 0;
+                break;
             case boneDelete:
                 return 1;
+                break;
             case boneRename:
                 return 2;
             default:
                 return null;
-        }
+                break;
+        };
     };
-
-
-
 
     function updateData(text, parent) {
         if (!parent.children) {
             // If parent.children is not defined or null, initialize it as an empty array
             parent.children = [];
-        }
+        };
         // Add the new item to the parent's children
         parent.children.push({ "name": text });
         // Redraw the fishbone diagram with the updated data
         updateDiagram();
     };
-
-
 
     // Function to delete a child node from the JSON data
     function deleteChild(parentNode, childName) {
@@ -279,20 +253,13 @@ $(document).ready(function () {
     function updateTree(container, data) {
         container.empty();
         showTree(container, data);
-    }
-
+    };
     // Function to update the fishbone diagram
     function updateFishbone() {
         svg.datum(jsonData).call(fishbone.defaultArrow).call(fishbone);
         fishbone.force().start();
-    }
-
-
-
-
-
+    };
 
     showTree($("#tree-box"), jsonData.children);
-    updateFishbone()
-
+    updateFishbone();
 });
