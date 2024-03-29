@@ -30,7 +30,12 @@ THE SOFTWARE.
     */
 
     // private variables
-    var _margin = 100,
+    var _margin = {
+      top: 50,
+      bottom: 50,
+      left: 50,
+      right: 270
+  },
 
       // the data...
       _nodes,
@@ -55,7 +60,7 @@ THE SOFTWARE.
       // arbitrary "nice" values
       _linkScale = d3.scale.log()
         .domain([1, 5])
-        .range([60, 30]),
+        .range([60, 10]),
 
       // the main workhorse of the layout engine
       _force = d3.layout.force()
@@ -311,36 +316,50 @@ THE SOFTWARE.
         a,
         b;
 
-      _nodes.forEach(function(d){
-        // handle the middle... could probably store the root width...
-        if(d.root){ d.x = width - (_margin + _root.getBBox().width); }
-        if(d.tail){ d.x = _margin; d.y = height / 2; }
+      // Adjust positioning based on margins
+var marginLeft = _margin.left;
+var marginRight = width - _margin.right;
+var marginTop = _margin.top;
+var marginBottom = height - _margin.bottom;
 
-        // put the first-generation items at the top and bottom
-        if(d.depth === 1){
-          d.y = d.region === -1 ? _margin : (height - _margin);
-          d.x -= 10 * k;
-        }
+_nodes.forEach(function(d){
+    // handle the middle
+    if(d.root){ 
+        d.x = marginRight - (_root.getBBox().width); 
+    }
+    if(d.tail){ 
+        d.x = marginLeft; 
+        d.y = height / 2; 
+    }
 
-        // vertically-oriented tend towards the top and bottom of the page
-        if(d.vertical){ d.y += k * d.region; }
+    // put the first-generation items at the top and bottom
+    if(d.depth === 1){
+        d.y = d.region === -1 ? marginTop : marginBottom;
+        d.x -= 10 * k;
+    }
 
-        // everything tends to the left
-        if(d.depth){ d.x -= k; }
+    // vertically-oriented tend towards the top and bottom of the page
+    if(d.vertical){ 
+        d.y += k * d.region; 
+    }
 
-        // position synthetic nodes at evently-spaced intervals...
-        // TODO: do something based on the calculated size of each branch
-        // since we don't have individual links anymore
-        if(d.between){
-          a = d.between[0];
-          b = d.between[1];
+    // everything tends to the left
+    if(d.depth){ 
+        d.x -= k; 
+    }
 
-          d.x = b.x - (1 + d.childIdx) * (b.x - a.x) / (b.maxChildIdx + 1);
-          d.y = b.y - (1 + d.childIdx) * (b.y - a.y) / (b.maxChildIdx + 1);
-        }
+    // position synthetic nodes at evenly-spaced intervals
+    if(d.between){
+        a = d.between[0];
+        b = d.between[1];
 
-        _perNodeTick(d);
-      });
+        d.x = b.x - (1 + d.childIdx) * (b.x - a.x) / (b.maxChildIdx + 1);
+        d.y = b.y - (1 + d.childIdx) * (b.y - a.y) / (b.maxChildIdx + 1);
+    }
+
+    _perNodeTick(d);
+});
+
 
       // actually apply all changes
       _node.call(_nodePosition);

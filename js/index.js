@@ -49,15 +49,20 @@ function updateDiagram() {
     fishbone.force().start();
 };
 
+var customWidth = 1100; // Specify your desired width
+var customHeight = 400; // Specify your desired height
+
 // the most reliable way to get the screen size
 var size = (function () {
-    return { width: this.clientWidth, height: this.clientHeight };
+    return { width: this.clientWidth-250, height: this.clientHeight };
 }).bind(window.document.documentElement),
 
-    svg = d3.select("body")
+    svg = d3.select("#svgContainer")
         .append("svg")
         // firefox needs a real size
         .attr(size())
+        // .attr("width",customWidth)
+        // .attr("height",customHeight)
         // set the data so the reusable chart can find it
         .datum(jsonData)
         // set up the default arrowhead
@@ -98,12 +103,62 @@ $(document).on("click", ".toggle-tree", function () {
 });
 
 $(document).ready(function () {
-    // let u = $("#tree-box");
-    // console.log(u);
+    //for the bones color
+    $('.link-0').css({
+        "stroke": "#000",
+        "stroke-width": "2px"
+      });
+      $('.link-1').css({
+        "stroke": "#333",
+        "stroke-width": "1px"
+      });
+      $('.link-2').css({
+        "stroke": "#666",
+        "stroke-width": ".5px"
+      });
+      $('.link-3').css({
+        "stroke": "#666",
+        "stroke-width": ".5px"
+      });
+      $('.link-4').css({
+        "stroke": "#666",
+        "stroke-width": ".5px"
+      });
+
+      //for converting svg to image.
+      $('#convertButton').on('click', function () {
+        var svgElement = $('#svgContainer').find('svg').get(0); // Find SVG within container
+        if (!svgElement) {
+          // console.error('SVG element not found.');
+          return;
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = svgElement.clientWidth;
+        canvas.height = svgElement.clientHeight;
+        var ctx = canvas.getContext('2d');
+        // Fill the canvas with white color
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        var svgXml = new XMLSerializer().serializeToString(svgElement);
+        var img = new Image();
+        img.onload = function () {
+          ctx.drawImage(img, 0, 0);
+          var pngDataUrl = canvas.toDataURL('image/png');
+          var link = $('<a>').attr({
+            href: pngDataUrl,
+            download: 'converted_image.png' // Set the filename for the downloaded PNG file
+          });
+          $('body').append(link);
+          link[0].click();
+          link.remove();
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgXml);
+      });
+
 
     // Function to create the tree diagram
     function showTree(container, data) {
-        const ul = $("<ul></ul>");
+        const ul = $('<ul></ul>');
         data.forEach(node => {
             const li = $("<li class='tree-node'></li>").text(node.name);
             if (node.children && node.children.length > 0) {
@@ -261,5 +316,6 @@ $(document).ready(function () {
     };
 
     showTree($("#tree-box"), jsonData.children);
+    $("#tree-box").append('')
     updateFishbone();
 });
