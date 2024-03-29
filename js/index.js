@@ -146,7 +146,7 @@ $(document).ready(function () {
           var pngDataUrl = canvas.toDataURL('image/png');
           var link = $('<a>').attr({
             href: pngDataUrl,
-            download: 'converted_image.png' // Set the filename for the downloaded PNG file
+            download: 'Fishbone_digram.png' // Set the filename for the downloaded PNG file
           });
           $('body').append(link);
           link[0].click();
